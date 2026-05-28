@@ -159,10 +159,13 @@ function MobileMenu({ open, setOpen }) {
 function Hero() {
   return (
     <section className="hero" id="top" aria-labelledby="hero-title">
+      <div className="hero-backdrop" aria-hidden="true">
+        <img src={barbaraReformer} alt="" fetchPriority="high" />
+      </div>
       <div className="hero-copy reveal">
         <p className="kicker">Studio Pilates di Barbara</p>
-        <h1 id="hero-title">Pilates, respiro, equilibrio.</h1>
-        <p>Uno studio curato dove il movimento torna essenziale, preciso e naturale.</p>
+        <h1 id="hero-title">Ritrova il tuo equilibrio.</h1>
+        <p>Pilates Reformer e percorsi su misura in uno studio luminoso, curato e personale.</p>
         <div className="hero-actions">
           <a className="button button-dark" href={WHATSAPP_URL}>
             Prenota la tua prima lezione
@@ -172,9 +175,10 @@ function Hero() {
           </a>
         </div>
       </div>
-      <div className="hero-image reveal" aria-label="Sala Reformer A.R.I.A Studio Pilates">
-        <img src={studioWide} alt="" fetchPriority="high" />
-      </div>
+      <figure className="hero-card reveal">
+        <img src={studioWide} alt="Sala Reformer luminosa di A.R.I.A Studio Pilates" />
+        <figcaption>A.R.I.A Studio Pilates</figcaption>
+      </figure>
     </section>
   );
 }
