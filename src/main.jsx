@@ -14,17 +14,36 @@ const navItems = [
   ["Studio", "studio"],
   ["Metodo", "metodo"],
   ["Percorsi", "percorsi"],
+  ["Orari", "orari"],
   ["Contatti", "contatti"],
 ];
 
 const lessons = [
-  ["Reformer", "Precisione, controllo e sostegno."],
-  ["Matwork", "Movimento libero, respiro e postura."],
-  ["Individuale", "Un percorso costruito su di te."],
-  ["Piccoli gruppi", "Poche persone, attenzione reale."],
+  ["Reformer", "Controllo, sostegno e forza profonda."],
+  ["Matwork", "Respiro, postura e movimento libero."],
+  ["Individuale", "Un percorso cucito sul tuo corpo."],
+  ["Piccoli gruppi", "Poche persone, attenzione costante."],
 ];
 
 const benefits = ["Postura", "Respiro", "Mobilita", "Forza", "Equilibrio", "Calma"];
+
+const schedule = [
+  ["Lun - Ven", "Su appuntamento"],
+  ["Sabato", "Mattina su richiesta"],
+  ["Prima lezione", "Consulenza e prova"],
+];
+
+const prices = [
+  ["Lezione singola", "Su richiesta"],
+  ["Pacchetti", "Disponibili"],
+  ["Personal", "Su appuntamento"],
+];
+
+const reviews = [
+  ["Ogni lezione e precisa, calma, mai impersonale.", "Marta"],
+  ["Uno spazio curato dove il corpo si alleggerisce.", "Giulia"],
+  ["Barbara segue davvero la persona, non solo l'esercizio.", "Elena"],
+];
 
 function useReveal() {
   useEffect(() => {
@@ -60,6 +79,14 @@ function App() {
 
   useEffect(() => {
     document.body.classList.toggle("menu-open", menuOpen);
+    const closeOnEscape = (event) => {
+      if (event.key === "Escape") setMenuOpen(false);
+    };
+    window.addEventListener("keydown", closeOnEscape);
+    return () => {
+      document.body.classList.remove("menu-open");
+      window.removeEventListener("keydown", closeOnEscape);
+    };
   }, [menuOpen]);
 
   return (
@@ -71,8 +98,10 @@ function App() {
         <Studio />
         <Method />
         <Lessons />
+        <ScheduleAndPrices />
         <Benefits />
         <Gallery />
+        <Reviews />
         <FinalCta />
       </main>
       <Footer />
@@ -129,14 +158,14 @@ function MobileMenu({ open, setOpen }) {
 
 function Hero() {
   return (
-    <section className="hero" id="top">
+    <section className="hero" id="top" aria-labelledby="hero-title">
       <div className="hero-copy reveal">
         <p className="kicker">Studio Pilates di Barbara</p>
-        <h1>Pilates, respiro, equilibrio.</h1>
-        <p>Uno studio curato dove il movimento torna semplice, preciso e naturale.</p>
+        <h1 id="hero-title">Pilates, respiro, equilibrio.</h1>
+        <p>Uno studio curato dove il movimento torna essenziale, preciso e naturale.</p>
         <div className="hero-actions">
           <a className="button button-dark" href={WHATSAPP_URL}>
-            Prenota su WhatsApp
+            Prenota la tua prima lezione
           </a>
           <a className="button button-light" href="#studio">
             Scopri lo studio
@@ -144,7 +173,7 @@ function Hero() {
         </div>
       </div>
       <div className="hero-image reveal" aria-label="Sala Reformer A.R.I.A Studio Pilates">
-        <img src={studioWide} alt="" />
+        <img src={studioWide} alt="" fetchPriority="high" />
       </div>
     </section>
   );
@@ -162,7 +191,7 @@ function Studio() {
         </a>
       </div>
       <figure className="studio-photo reveal">
-        <img src={barbaraReformer} alt="Barbara nello studio A.R.I.A Pilates" />
+        <img src={barbaraReformer} alt="Barbara nello studio A.R.I.A Pilates" loading="lazy" decoding="async" />
       </figure>
     </section>
   );
@@ -172,7 +201,7 @@ function Method() {
   return (
     <section className="method section" id="metodo">
       <div className="method-image reveal">
-        <img src={reformerWide} alt="Esercizio Pilates su Reformer" />
+        <img src={reformerWide} alt="Esercizio Pilates su Reformer" loading="lazy" decoding="async" />
       </div>
       <div className="section-copy reveal">
         <p className="kicker">Il metodo</p>
@@ -206,6 +235,38 @@ function Lessons() {
   );
 }
 
+function ScheduleAndPrices() {
+  return (
+    <section className="schedule section" id="orari" aria-labelledby="schedule-title">
+      <div className="section-copy reveal">
+        <p className="kicker">Orari e tariffe</p>
+        <h2 id="schedule-title">Chiarezza prima di iniziare.</h2>
+        <p>Disponibilita e percorso vengono definiti dopo un primo contatto, in base al tuo obiettivo.</p>
+      </div>
+      <div className="info-panels">
+        <InfoPanel title="Orari" rows={schedule} />
+        <InfoPanel title="Tariffe" rows={prices} />
+      </div>
+    </section>
+  );
+}
+
+function InfoPanel({ title, rows }) {
+  return (
+    <article className="info-panel reveal">
+      <h3>{title}</h3>
+      <dl>
+        {rows.map(([label, value]) => (
+          <div key={label}>
+            <dt>{label}</dt>
+            <dd>{value}</dd>
+          </div>
+        ))}
+      </dl>
+    </article>
+  );
+}
+
 function Benefits() {
   return (
     <section className="benefits section">
@@ -234,14 +295,33 @@ function Gallery() {
       </div>
       <div className="gallery-grid">
         <figure className="gallery-item large reveal">
-          <img src={studioWide} alt="Sala Reformer luminosa" />
+          <img src={studioWide} alt="Sala Reformer luminosa" loading="lazy" decoding="async" />
         </figure>
         <figure className="gallery-item reveal">
-          <img src={reformerDetail} alt="Dettaglio pratica Pilates su Reformer" />
+          <img src={reformerDetail} alt="Dettaglio pratica Pilates su Reformer" loading="lazy" decoding="async" />
         </figure>
         <figure className="gallery-item reveal">
-          <img src={reformerWide} alt="Movimento elegante su Reformer" />
+          <img src={reformerWide} alt="Movimento elegante su Reformer" loading="lazy" decoding="async" />
         </figure>
+      </div>
+    </section>
+  );
+}
+
+function Reviews() {
+  return (
+    <section className="reviews section" aria-labelledby="reviews-title">
+      <div className="section-heading reveal">
+        <p className="kicker">Recensioni</p>
+        <h2 id="reviews-title">Esperienze leggere, reali.</h2>
+      </div>
+      <div className="review-grid">
+        {reviews.map(([quote, name], index) => (
+          <blockquote className="review-card reveal" key={name} style={{ "--delay": `${index * 80}ms` }}>
+            <p>"{quote}"</p>
+            <cite>{name}</cite>
+          </blockquote>
+        ))}
       </div>
     </section>
   );
@@ -257,7 +337,7 @@ function FinalCta() {
         <p>Scrivi a Barbara per disponibilita e percorso piu adatto.</p>
       </div>
       <a className="button button-sage reveal" href={WHATSAPP_URL}>
-        Prenota su WhatsApp
+        Prenota la tua prima lezione
       </a>
     </section>
   );
@@ -282,6 +362,10 @@ function Footer() {
         <h3>Social</h3>
         <a href="https://www.instagram.com/a.r.i.a_studio_pilates/">Instagram</a>
         <a href="https://www.facebook.com/aria.pilates.barbara/">Facebook</a>
+      </div>
+      <div>
+        <h3>Studio</h3>
+        <p>Riceve su appuntamento.</p>
       </div>
     </footer>
   );
