@@ -1,13 +1,17 @@
 # A.R.I.A Studio Pilates di Barbara
 
-Sito web single-file HTML per A.R.I.A Studio Pilates di Barbara.
+Sito web React/Vite per A.R.I.A Studio Pilates di Barbara, con immagini reali,
+font locali e direzione visiva editoriale premium.
 
-## Contenuto
+## Sviluppo
 
-- `index.html` con CSS e JavaScript inline
-- font locali in `canvas-fonts/`
-- immagini reali e logo in `assets/`
+```bash
+npm install
+npm run dev
+```
 
-## Anteprima locale
+## Build
 
-Apri `index.html` nel browser, oppure servi la cartella con un server statico locale.
+```bash
+npm run build
+```
